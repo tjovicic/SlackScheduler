@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 
 class App extends React.Component {
   constructor(props) {
-    super();
+    super(props);
     this.handleToggleDrawer = this.handleToggleDrawer.bind(this);
     this.handleCloseDrawer = this.handleCloseDrawer.bind(this);
     this.state = {open: false};

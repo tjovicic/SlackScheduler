@@ -10,3 +10,5 @@ frontend/src/.DS_Store
 frontend/src/app/.DS_Store
 frontend/src/app/components/.DS_Store
 slack-scheduler.iml
+frontend/dist
+frontend/target

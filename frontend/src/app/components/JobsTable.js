@@ -1,26 +1,51 @@
 import React from 'react';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentRemove from 'material-ui/svg-icons/content/remove';
-import axios from "axios/index";
-
+import {TableHeader, Table, TableBody, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import axios from "axios";
+import {FloatingActionButton} from "material-ui";
+import {ContentRemove} from "material-ui/svg-icons/index";
 
 class JobsTable extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {jobs: []};
+
+    this.handleJobDeletion = this.handleJobDeletion.bind(this);
+  }
 
   componentDidMount() {
     axios.get('/api/jobs')
       .then(res => {
-        debugger;
-        const persons = res.data;
-        this.setState({persons});
+        const jobs = res.data;
+        this.setState({jobs});
       })
+  }
+
+  handleJobDeletion(id) {
+    axios.delete('/api/jobs/'+id)
+      .then(res => {
+        debugger;
+        this.setState(this.state.jobs.filter(job => job.id !== id));
+      })
+  }
+
+  generateRows() {
+    return this.state.jobs.map(job => {
+      return (
+        <TableRow>
+          <TableRowColumn>{job.id}</TableRowColumn>
+          <TableRowColumn>{job.text}</TableRowColumn>
+          <TableRowColumn>{job.time}</TableRowColumn>
+          <TableRowColumn>{job.channel}</TableRowColumn>
+          <TableRowColumn>{job.status}</TableRowColumn>
+          <TableRowColumn>
+            <FloatingActionButton mini={true} secondary={true} onClick={() => this.handleJobDeletion(job.id)}>
+              <ContentRemove/>
+            </FloatingActionButton>
+          </TableRowColumn>
+        </TableRow>
+      );
+    })
   }
 
   render() {
@@ -37,30 +62,7 @@ class JobsTable extends React.Component {
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false}>
-          <TableRow>
-            <TableRowColumn>1</TableRowColumn>
-            <TableRowColumn>Good Morning!</TableRowColumn>
-            <TableRowColumn>2017-08-03</TableRowColumn>
-            <TableRowColumn>My Channel</TableRowColumn>
-            <TableRowColumn>Pending</TableRowColumn>
-            <TableRowColumn>
-              <FloatingActionButton mini={true} secondary={true}>
-                <ContentRemove />
-              </FloatingActionButton>
-            </TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn>1</TableRowColumn>
-            <TableRowColumn>Good Morning!</TableRowColumn>
-            <TableRowColumn>2017-08-03</TableRowColumn>
-            <TableRowColumn>My Channel1</TableRowColumn>
-            <TableRowColumn>Sent</TableRowColumn>
-            <TableRowColumn>
-              <FloatingActionButton mini={true} secondary={true}>
-                <ContentRemove />
-              </FloatingActionButton>
-            </TableRowColumn>
-          </TableRow>
+          {this.generateRows()}
         </TableBody>
       </Table>
     )

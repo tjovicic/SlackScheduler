@@ -1,13 +1,10 @@
 package com.github.tjovicic.slack_scheduler.controller;
 
 import com.github.tjovicic.slack_scheduler.domain.Job;
+import com.github.tjovicic.slack_scheduler.domain.Response;
 import com.github.tjovicic.slack_scheduler.service.JobService;
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +24,12 @@ public class JobController {
   }
 
   @PostMapping("/api/jobs")
-  public Job createJob(@RequestBody final Job job) {
+  public Response createJob(@RequestBody final Job job) {
     return this.jobService.save(job);
+  }
+
+  @DeleteMapping("/api/jobs/{id}")
+  public void createJob(@PathVariable final Long id) {
+    this.jobService.delete(id);
   }
 }

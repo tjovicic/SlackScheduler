@@ -3,26 +3,76 @@ import TextField from 'material-ui/TextField';
 import DatePicker from 'material-ui/DatePicker';
 import TimePicker from 'material-ui/TimePicker';
 import RaisedButton from 'material-ui/RaisedButton';
+import axios from 'axios';
+import moment from 'moment';
 
-const style = {
-  margin: 12,
-};
 
 class JobsForm extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleTimeChange = this.handleTimeChange.bind(this);
+
+    this.state = {
+      text: '',
+      date: null,
+      time: null
+    }
+  }
+
+  handleTextChange(event, text) {
+    this.setState({text: text})
+  };
+
+  handleDateChange(event, date) {
+    this.setState({date: date})
+  };
+
+  handleTimeChange(event, time) {
+    this.setState({time: time})
+  };
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const date = moment(this.state.date).format('YYYY-MM-DD');
+    const time = moment(this.state.time).format('HH:mm:ss');
+
+    axios.post('/api/jobs', {text: this.state.text, status: 'PENDING', time: date+'T'+time})
+      .then(res => {
+        if (res.data.status === 'fail') {
+          console.log(res.data.message);
+        }
+      });
+  }
 
   render() {
     return (
       <div>
         <TextField
-          defaultValue="Default Value"
-          floatingLabelText="Floating Label Text"
+          floatingLabelText='Notification text'
+          value={this.state.text}
+          onChange={this.handleTextChange}
         />
-        <DatePicker hintText="Portrait Dialog" />
+        <br/>
+        <DatePicker
+          hintText="Date"
+          style={{display : 'inline-block'}}
+          value={this.state.date}
+          onChange={this.handleDateChange}
+        />
         <TimePicker
-          hintText="12hr Format with auto ok"
+          hintText="Time"
           autoOk={true}
+          format="24hr"
+          style={{display : 'inline-block'}}
+          value={this.state.time}
+          onChange={this.handleTimeChange}
         />
-        <RaisedButton label="Submit" secondary={true} style={style}/>
+        <br/>
+        <RaisedButton label='Submit' secondary={true} onClick={this.handleSubmit}/>
       </div>
     )
   }
