@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1" author="tjovicic">
+        <createTable tableName="job">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="text" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time" type="timestamp" defaultValueComputed="current_timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="channel" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="job">
+            <column name="id" value="1"/>
+            <column name="text" value="Test Job1"/>
+            <column name="channel" value="Text Channel1"/>
+            <column name="status" value="PENDING"/>
+        </insert>
+        <insert tableName="job">
+            <column name="id" value="2"/>
+            <column name="text" value="Test Job2"/>
+            <column name="channel" value="Text Channel2"/>
+            <column name="status" value="ERROR"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
