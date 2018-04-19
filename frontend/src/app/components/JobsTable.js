@@ -25,8 +25,7 @@ class JobsTable extends React.Component {
   handleJobDeletion(id) {
     axios.delete('/api/jobs/'+id)
       .then(res => {
-        debugger;
-        this.setState(this.state.jobs.filter(job => job.id !== id));
+        this.setState({jobs: this.state.jobs.filter(job => job.id !== id)});
       })
   }
 
