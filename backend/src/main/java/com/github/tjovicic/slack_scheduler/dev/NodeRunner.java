@@ -25,7 +25,7 @@ public class NodeRunner implements CommandLineRunner {
 
     @Override
     public void run(final String... args) throws Exception {
-        if (!this.environment.acceptsProfiles("production") && !this.environment.acceptsProfiles("test")) {
+        if (this.environment.acceptsProfiles("development")) {
             final AtomicBoolean registered = (AtomicBoolean) Restarter.getInstance().getOrAddAttribute("nodeStarted", AtomicBoolean::new);
             final boolean alreadyRun = registered.getAndSet(true);
             if (!alreadyRun) {

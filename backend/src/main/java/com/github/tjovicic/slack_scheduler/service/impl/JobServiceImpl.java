@@ -37,14 +37,28 @@ public class JobServiceImpl implements JobService {
 
   @Override
   public Response save(final Job job) {
+    if (job.getId() != null) {
+      return updateJob(job);
+    } else {
+      return saveNewJob(job);
+    }
+  }
+
+  private Response saveNewJob(final Job job) {
     if (isTimeValid(job.getTime())) {
-      return new Response("fail", "Time must be at least 2 minutes in the future");
+      return new Response("fail", "Time must be at least 1 minute in the future");
     }
 
     job.setChannel(this.channel);
     this.jobRepository.save(job);
-
     LOGGER.info("Job saved : " + job.toString());
+
+    return new Response("success", "");
+  }
+
+  private Response updateJob(final Job job) {
+    this.jobRepository.save(job);
+    LOGGER.info("Job updated : " + job.toString());
 
     return new Response("success", "");
   }
@@ -56,11 +70,11 @@ public class JobServiceImpl implements JobService {
 
   @Override
   public List<Job> getForTime(final LocalDateTime time) {
-    return this.jobRepository.findAllByTimeBeforeAndStatusEquals(time, JobStatus.PENDING);
+    return this.jobRepository.findAllByTimeIsLessThanEqualAndStatusEquals(time, JobStatus.PENDING);
   }
 
   private boolean isTimeValid(final LocalDateTime time) {
-    final LocalDateTime minDateTime = LocalDateTime.now().plusMinutes(2);
+    final LocalDateTime minDateTime = LocalDateTime.now().plusMinutes(1);
     return time.isBefore(minDateTime);
   }
 }

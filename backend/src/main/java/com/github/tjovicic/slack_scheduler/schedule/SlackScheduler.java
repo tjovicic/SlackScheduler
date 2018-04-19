@@ -12,9 +12,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -34,15 +36,21 @@ public class SlackScheduler {
 
   @Scheduled(cron = "0 * * * * *")
   public void sendMessages() {
-    LOGGER.info("[" + LocalDateTime.now().toString() + "]" + "Sending messages started");
+    LOGGER.info("[" + LocalDateTime.now().toString() + "]" + " Sending messages started");
 
     final List<Job> jobs = this.jobService.getForTime(LocalDateTime.now());
 
     for (final Job job : jobs) {
       LOGGER.info("Sending for job: " + job.toString());
-      sendMessageToChannel(job.getText(), job.getChannel());
 
-      job.setStatus(JobStatus.SENT);
+      try {
+        sendMessageToChannel(job.getText(), job.getChannel());
+        job.setStatus(JobStatus.SENT);
+      } catch (final HttpClientErrorException e) {
+        LOGGER.error("Error while sending message: " + Arrays.toString(e.getStackTrace()));
+        job.setStatus(JobStatus.ERROR);
+      }
+
       this.jobService.save(job);
     }
 

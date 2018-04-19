@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface JobRepository extends CrudRepository<Job, Long> {
 
-  List<Job> findAllByTimeBeforeAndStatusEquals(LocalDateTime time, JobStatus status);
+  List<Job> findAllByTimeIsLessThanEqualAndStatusEquals(LocalDateTime time, JobStatus status);
 
 }

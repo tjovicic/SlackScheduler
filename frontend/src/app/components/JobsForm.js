@@ -54,7 +54,7 @@ class JobsForm extends React.Component {
     return (
       <div>
         <TextField
-          floatingLabelText='Notification text'
+          floatingLabelText='Text'
           value={this.state.text}
           onChange={this.handleTextChange}
         />

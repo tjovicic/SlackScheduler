@@ -23,19 +23,6 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-
-        <insert tableName="job">
-            <column name="id" value="1"/>
-            <column name="text" value="Test Job1"/>
-            <column name="channel" value="Text Channel1"/>
-            <column name="status" value="PENDING"/>
-        </insert>
-        <insert tableName="job">
-            <column name="id" value="2"/>
-            <column name="text" value="Test Job2"/>
-            <column name="channel" value="Text Channel2"/>
-            <column name="status" value="ERROR"/>
-        </insert>
     </changeSet>
 
 </databaseChangeLog>
