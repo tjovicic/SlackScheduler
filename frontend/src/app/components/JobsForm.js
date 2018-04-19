@@ -18,7 +18,8 @@ class JobsForm extends React.Component {
     this.state = {
       text: '',
       date: null,
-      time: null
+      time: null,
+      error: null
     }
   }
 
@@ -42,7 +43,7 @@ class JobsForm extends React.Component {
     axios.post('/api/jobs', {text: this.state.text, status: 'PENDING', time: date+'T'+time})
       .then(res => {
         if (res.data.status === 'fail') {
-          console.log(res.data.message);
+          this.setState({error: res.data.message});
         } else {
           this.props.history.push('/jobs')
         }
@@ -62,6 +63,7 @@ class JobsForm extends React.Component {
           hintText="Date"
           value={this.state.date}
           onChange={this.handleDateChange}
+          errorText={this.state.error}
         />
         <TimePicker
           hintText="Time"
@@ -69,6 +71,7 @@ class JobsForm extends React.Component {
           format="24hr"
           value={this.state.time}
           onChange={this.handleTimeChange}
+          errorText={this.state.error}
         />
         <br/>
         <RaisedButton label='Submit' secondary={true} onClick={this.handleSubmit}/>

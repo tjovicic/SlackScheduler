@@ -28,9 +28,9 @@ public class JobServiceImpl implements JobService {
 
   @Override
   public Response save(final Job job) {
-    final LocalDateTime minDateTime = LocalDateTime.now().plusMinutes(5);
+    final LocalDateTime minDateTime = LocalDateTime.now().plusMinutes(2);
     if (job.getTime().isBefore(minDateTime)) {
-      return new Response("fail", "DateTime before min DateTime: " + minDateTime.toString());
+      return new Response("fail", "Time must be at least 2 minutes in the future");
     }
 
     job.setChannel("test");
