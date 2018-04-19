@@ -3,6 +3,7 @@ import {TableHeader, Table, TableBody, TableHeaderColumn, TableRow, TableRowColu
 import axios from "axios";
 import {FloatingActionButton} from "material-ui";
 import {ContentRemove} from "material-ui/svg-icons/index";
+import uuid from 'uuid/v1';
 
 class JobsTable extends React.Component {
 
@@ -32,7 +33,7 @@ class JobsTable extends React.Component {
   generateRows() {
     return this.state.jobs.map(job => {
       return (
-        <TableRow>
+        <TableRow key={uuid()}>
           <TableRowColumn>{job.id}</TableRowColumn>
           <TableRowColumn>{job.text}</TableRowColumn>
           <TableRowColumn>{job.time}</TableRowColumn>

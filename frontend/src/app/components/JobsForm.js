@@ -6,7 +6,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
 import moment from 'moment';
 
-
 class JobsForm extends React.Component {
 
   constructor(props) {
@@ -44,6 +43,8 @@ class JobsForm extends React.Component {
       .then(res => {
         if (res.data.status === 'fail') {
           console.log(res.data.message);
+        } else {
+          this.props.history.push('/jobs')
         }
       });
   }

@@ -19,17 +19,17 @@ public class JobController {
   }
 
   @GetMapping("/api/jobs")
-  public List<Job> getJobs() {
+  public List<Job> getAll() {
     return this.jobService.getAll();
   }
 
   @PostMapping("/api/jobs")
-  public Response createJob(@RequestBody final Job job) {
+  public Response create(@RequestBody final Job job) {
     return this.jobService.save(job);
   }
 
   @DeleteMapping("/api/jobs/{id}")
-  public void createJob(@PathVariable final Long id) {
+  public void delete(@PathVariable final Long id) {
     this.jobService.delete(id);
   }
 }
