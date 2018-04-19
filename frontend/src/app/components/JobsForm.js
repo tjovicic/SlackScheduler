@@ -60,7 +60,6 @@ class JobsForm extends React.Component {
         <br/>
         <DatePicker
           hintText="Date"
-          style={{display : 'inline-block'}}
           value={this.state.date}
           onChange={this.handleDateChange}
         />
@@ -68,7 +67,6 @@ class JobsForm extends React.Component {
           hintText="Time"
           autoOk={true}
           format="24hr"
-          style={{display : 'inline-block'}}
           value={this.state.time}
           onChange={this.handleTimeChange}
         />
