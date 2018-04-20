@@ -41,14 +41,14 @@ class App extends React.Component {
               </Link>
 
 
-              <Link to={'/jobs'} style={{ textDecoration: 'none' }}>
+              <Link to={'/table'} style={{ textDecoration: 'none' }}>
                 <MenuItem onClick={this.handleCloseDrawer}>
                 Jobs
                 </MenuItem>
               </Link>
             </Drawer>
             <Route exact={true} path='/' component={JobsTable}/>
-            <Route path='/jobs' component={JobsTable}/>
+            <Route path='/table' component={JobsTable}/>
             <Route path='/create' component={JobsForm}/>
           </div>
         </MuiThemeProvider>

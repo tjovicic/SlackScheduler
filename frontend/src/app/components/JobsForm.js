@@ -45,7 +45,7 @@ class JobsForm extends React.Component {
         if (res.data.status === 'fail') {
           this.setState({error: res.data.message});
         } else {
-          this.props.history.push('/jobs')
+          this.props.history.push('/table')
         }
       });
   }
