@@ -1,5 +1,5 @@
 Development
-- Runs on Java 8
+- Runs on Java 8, node 9.8.0, npm 5.6.0
 - Set _spring.profiles.active_ argument to **development** 
 - Start only _Application.java_, frontend server automatically starts after tomcat has started
 - Backend runs on port **8080**, frontend on **3000**
